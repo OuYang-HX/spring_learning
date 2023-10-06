@@ -1,5 +1,23 @@
-# 什么是IOC？
-Spring提供的容器称为IoC，IoC的全称是Inversion of Control，直译为控制反转。在理解IoC之前，先了解一下通常的Java组件如何协作。
+# Spring概述
+Spring 的主要作用就是为代码“解耦”，降低代码间的耦合度。就是让对象和对象（模块和模块）之间的关系不通过代码直接关联，而是通过配置来说明。减轻对项目模块之间的管理， 类和类之间的管理， 帮助开发人员创建对象，管理对象之间的关系。当需要修改某一模块时不会因为与其他模块有关联而需要一起修改。
+
+# IoC
+
+## 什么是IOC？
+IoC是Spring提供的容器，它的全称是Inversion of Control，直译为控制反转，Spring框架中对象创建、赋值、管理工作都交由这个容器（即IoC）实现。
+
+**控制**：即创建对象，对象的属性赋值，对象之间的关系管理。
+
+**反转**：即把原来的开发人员管理，创建对象的权限转移给代码之外的容器实现。由容器代替开发人员管理对象。创建对象，给属性赋值。
+
+## 为什么要用IoC
+
+通常，业务模块在相互调用中需要实例化一个对象时，都是使用类的构造方法来new一个对象，这个过程需要程序员在代码中去作改动，维护起来会很麻烦。而IoC的理念即是将这个过程中交由Spring容器统一管理，自动“注入”。这样可以减少对代码的改动，降低业务对象之间的耦合度，实现**解耦合**。
+
+
+<details>
+<summary>在没有IoC之前，通常的Java组件协作过程</summary>
+
 假定有一个在线商店项目，通过ProductService获取商品：
 ```java
 public class ProductService {
@@ -55,6 +73,7 @@ public class HistoryServlet extends HttpServlet {
     private UserService userService = new UserService();
 }
 ```
+
 上述每个组件都采用了一种简单的通过new创建实例并持有的方式。仔细观察，会发现以下缺点：
 
 实例化一个组件其实很难，例如，ProductService和UserService要创建HikariDataSource，实际上需要读取配置，才能先实例化HikariConfig，再实例化HikariDataSource。
@@ -79,6 +98,10 @@ public class HistoryServlet extends HttpServlet {
 传统的应用程序中，控制权在程序本身，程序的控制流程完全由开发者控制，例如：
 
 CartServlet创建了ProductService，在创建ProductService的过程中，又创建了DataSource组件。这种模式的缺点是，一个组件如果要使用另一个组件，必须先知道如何正确地创建它。
+</details>
+
+<details>
+<summary>IoC方式</summary>
 
 在IoC模式下，控制权发生了反转，即从应用程序转移到了IoC容器，所有组件不再由应用程序自己创建和配置，而是由IoC容器负责，这样，应用程序只需要直接使用已经创建好并且配置好的组件。为了能让组件在IoC容器中被“装配”出来，需要某种“注入”机制，例如，ProductService自己并不会创建DataSource，而是等待外部通过setDataSource()方法来注入一个DataSource：
 ```java
@@ -133,7 +156,7 @@ Spring的IoC容器同时支持属性注入和构造方法注入，并允许混�
 
 应用程序组件既可以在Spring的IoC容器中运行，也可以自己编写代码自行组装配置；
 测试的时候并不依赖Spring容器，可单独进行测试，大大提高了开发效率。
-
+</details>
 
 IOC创建对象的方式
 1. 默认使用无参构造
@@ -159,3 +182,9 @@ name：也是别名，而且name可以同时取多个别名
 - 依赖注入
     - 依赖：bean对象的创建依赖于容器
     - 注入：bean对象中的所有属性，都由容器注入
+
+
+# DI
+
+## 什么是DI
+DI是IoC的技术实现机制，它的全称是Dependency Injection，直译为依赖注入，是实现IoC（控制反转）的一种方式。
