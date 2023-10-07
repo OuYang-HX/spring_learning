@@ -82,7 +82,7 @@ public class ClassA {
     ……  
 }
 ```
-上述代码中,ClassA依赖于InterfaceB的实现，在我们获取InterfaceB的实现实例时，传统的方法是在代码中创建InterfaceB实现类的实例，并将其赋予clzB，ClassA在编译期就依赖于InterfaceB的实现。为了将调用者与实现者在编译期分离，便有了上述代码。根据预先在配置文件中设定的实现类的类名（Config.BImplementation），动态加载实现类，并通过InterfaceB强制转型后为ClassA所用，这便是接口注入的雏形。
+&emsp;&emsp;上述代码中,ClassA依赖于InterfaceB的实现，在我们获取InterfaceB的实现实例时，传统的方法是在代码中创建InterfaceB实现类的实例，并将其赋予clzB，ClassA在编译期就依赖于InterfaceB的实现。为了将调用者与实现者在编译期分离，便有了上述代码。根据预先在配置文件中设定的实现类的类名（Config.BImplementation），动态加载实现类，并通过InterfaceB强制转型后为ClassA所用，这便是接口注入的雏形。
 
 ### Setter方法注入
 setter注入模式在实际开发中有非常广泛的应用，setter方法更加直观，如下是一个spring的配置文件：
